@@ -18,6 +18,16 @@ Add the appropriate environment variables:
   * REACT_APP_AAD_REDIRECT_URI
   * REACT_APP_AAD_SCOPES
 
+(e.g you could use .env)
+
+```typescript
+REACT_APP_FUNCTION_ENDPOINT=http://localhost:7071
+REACT_APP_AAD_APP_CLIENTID=<<YOUR CLIENT ID>>
+REACT_APP_AAD_DIRECTORY_TENANTID=<<YOUR TENANT ID>>
+REACT_APP_AAD_REDIRECT_URI=http://localhost:5000
+REACT_APP_AAD_SCOPES=<<app ID URI>>/<<scope>>
+```
+
 Create a file for your MSAL Configuration:
 
 ```\src\config\msal-config.tsx```
