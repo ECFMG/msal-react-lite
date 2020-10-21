@@ -59,5 +59,8 @@
   },
   "files": [
     "dist"
-  ]
+  ],
+  "dependencies": {
+    "@azure/msal-browser": "^2.3.1"
+  }
 }

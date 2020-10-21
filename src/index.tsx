@@ -1,10 +1,9 @@
-import * as React from 'react'
-import styles from './styles.module.css'
+import useMsal from "./use-msal";
+import MsalProvider, {MsalProviderPopupConfig, MsalProviderRedirectConfig}  from './msal-provider';
 
-interface Props {
-  text: string
+export {
+    useMsal,
+    MsalProviderPopupConfig,
+    MsalProviderRedirectConfig
 }
-
-export const ExampleComponent = ({ text }: Props) => {
-  return <div className={styles.test}>Example Component: {text}</div>
-}
+export default MsalProvider;

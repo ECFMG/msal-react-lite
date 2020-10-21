@@ -4,4 +4,11 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
 
-ReactDOM.render(<App />, document.getElementById('root'))
+import msalConfig from './config/msal-config'
+import MsalProvider from 'msal-react-lite'
+
+ReactDOM.render(
+  <MsalProvider config={msalConfig}>
+    <App />
+  </MsalProvider>
+, document.getElementById('root'))
