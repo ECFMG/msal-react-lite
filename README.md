@@ -154,3 +154,7 @@ export default App
 ## License
 
 MIT © [ecfmg](https://github.com/ecfmg)
+
+## Thanks
+
+- Thanks to [Travis Fischer](https://github.com/transitive-bullshit) for [create-react-library](https://www.npmjs.com/package/create-react-library) which made the process of creating an NPM package quite painless.
