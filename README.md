@@ -12,9 +12,21 @@ npm install --save msal-react-lite
 
 ## Usage
 
+Add the appropriate environment variables:
+  * REACT_APP_AAD_APP_CLIENTID
+  * REACT_APP_AAD_DIRECTORY_TENANTID
+  * REACT_APP_AAD_REDIRECT_URI
+  * REACT_APP_AAD_SCOPES
+
 Create a file for your MSAL Configuration:
 
 ```\src\config\msal-config.tsx```
+
+
+
+
+
+
 
 ```tsx
 import {MsalProviderPopupConfig, MsalProviderRedirectConfig}  from 'msal-react-lite';
