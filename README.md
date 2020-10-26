@@ -28,7 +28,11 @@ REACT_APP_AAD_REDIRECT_URI=http://localhost:5000
 REACT_APP_AAD_SCOPES=<<app ID URI>>/<<scope>>
 ```
 
+
 Create a file for your MSAL Configuration:
+
+(the following is a sample to help you get started you'll need to customize to your needs)
+
 
 ```\src\config\msal-config.tsx```
 
@@ -98,6 +102,14 @@ var msalProviderConfig = msalProviderRedirectConfig;
 export default msalProviderConfig;
 ```
 
+msal-react-lite uses standard MSAL coniguration options, refer to the doucmention links below for help on configuring to meet your specific needs.
+  
+  - msalConfig: [See Microsoft's Documentation](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-browser/docs/configuration.md#configuration-options)
+  - silentRequestConfig: [See Microsoft's Documentation](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-browser/docs/request-response-object.md#silentflowrequest)
+  - endSessionRequestConfig: [See Microsoft's Documentation](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-browser/docs/logout.md#end-session-request)
+  - loginRequestConfig (loginPopup only):[See Microsoft's Documentation](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/514cebb834fd913d350a538b1aaf3e2331ad2aea/lib/msal-browser/src/request/PopupRequest.ts)
+  - redirectRequestConfig (loginRedirect only):[See Microsoft's Documentation](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/514cebb834fd913d350a538b1aaf3e2331ad2aea/lib/msal-browser/src/request/RedirectRequest.ts)
+ 
 
 ```\src\index.tsx```
 
