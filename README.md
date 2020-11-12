@@ -3,6 +3,7 @@
 > A lightweight Higher Order Component to quickly add MSAL to any React Project
 
 [![NPM](https://img.shields.io/npm/v/msal-react-lite.svg)](https://www.npmjs.com/package/msal-react-lite) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FECFMG%2Fmsal-react-lite.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FECFMG%2Fmsal-react-lite?ref=badge_shield)
 
 ## Install
 
@@ -167,6 +168,9 @@ export default App
 ## License
 
 MIT © [ecfmg](https://github.com/ecfmg)
+
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FECFMG%2Fmsal-react-lite.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FECFMG%2Fmsal-react-lite?ref=badge_large)
 
 ## Thanks
 
