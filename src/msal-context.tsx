@@ -1,10 +1,12 @@
 import { createContext } from 'react';
+import * as msal from "@azure/msal-browser";
 
 export interface MsalContextInterface {
-  getAuthToken: () => Promise<string|undefined>, 
-  isLoggedIn:   boolean,
-  logout:       () => Promise<void>;
-  login:        () => Promise<void>;
+  getAuthToken:  () => Promise<string|undefined>, 
+  getAuthResult: () => Promise<msal.AuthenticationResult|undefined>,
+  isLoggedIn:    boolean,
+  logout:        () => Promise<void>;
+  login:         () => Promise<void>;
 } 
 
 const stub = (): never => {
@@ -13,6 +15,7 @@ const stub = (): never => {
 
 const initialContext = {
   getAuthToken:   stub,
+  getAuthResult:  stub,
   isLoggedIn:     false,
   logout:         stub,
   login:          stub,

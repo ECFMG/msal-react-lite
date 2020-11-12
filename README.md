@@ -142,7 +142,7 @@ import {useMsal} from 'msal-react-lite'
 
 const App = () => {
   /* .. reference methods and isLoggedIn property from context ..*/
-  const {login,logout,getAuthToken,isLoggedIn} = useMsal()
+  const {login,logout,getAuthToken,getAuthResult,isLoggedIn} = useMsal()
   return (
     <div>
       MSAL Example:<br/>
@@ -151,8 +151,9 @@ const App = () => {
 
       {/*  .. can execute login/logout and getAuthToken methods */}
       <button onClick={() => login()}>LogIn</button>
-      <button onClick={() => logout()}>LogOut</button>
-      <button onClick={() => getAuthToken()}>Get Token</button>
+      <button onClick={() => logout()}>LogOut</button>      
+      <button onClick={async () => await getAuthToken()}>Get Token</button>
+      <button onClick={async () => console.log('AuthResult:',await getAuthResult())}>Get msal.AuthResult</button>
     </div>
   )
 }

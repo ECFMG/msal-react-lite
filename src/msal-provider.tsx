@@ -80,8 +80,12 @@ const MsalProvider:FC<MsalProps> = (props: MsalProps) : JSX.Element => {
       ...silentRequestConfig
     } as msal.SilentRequest
   }
-  
-  let getAuthToken = async (providedHomeAccountId?:string) =>{
+
+  let getAuthToken = async (providedHomeAccountId?:string) : Promise<string|undefined> =>{
+    return (await getAuthResult(providedHomeAccountId))?.accessToken
+  }
+
+  let getAuthResult = async (providedHomeAccountId?:string) : Promise<msal.AuthenticationResult|undefined>  => {
     var fullSilentRequestConfig = getFullSilentRequestConfig(props.config.silentRequestConfig,providedHomeAccountId);
     if(!fullSilentRequestConfig) {
       setIsLoggedIn(false);
@@ -105,30 +109,30 @@ const MsalProvider:FC<MsalProps> = (props: MsalProps) : JSX.Element => {
     msalInstance.handleRedirectPromise().then(handleRedirectResult);
   },[]); // eslint-disable-line react-hooks/exhaustive-deps
   
-  let authTokenPopup = async (silentRequest:msal.SilentRequest,loginRequestConfig?: msal.AuthorizationUrlRequest) : Promise<string|undefined> => {
+  let authTokenPopup = async (silentRequest:msal.SilentRequest,loginRequestConfig?: msal.AuthorizationUrlRequest) : Promise<msal.AuthenticationResult|undefined> => {
     var authResult : msal.AuthenticationResult;
     try {
       authResult = await msalInstance.acquireTokenSilent(silentRequest)
-      return authResult.accessToken;
+      return authResult;
     } catch (err) {
       if(err instanceof msal.InteractionRequiredAuthError){
         // should log in
         if(loginRequestConfig){
           authResult = await msalInstance.acquireTokenPopup(loginRequestConfig);
           setIsLoggedIn(true);
-          return authResult.accessToken;
+          return authResult;
         }
       }
       return undefined;
     }
   } 
 
-  let authTokenRedirect = async (silentRequest:msal.SilentRequest,redirectRequestConfig? :msal.RedirectRequest | undefined) : Promise<string|undefined> => {
+  let authTokenRedirect = async (silentRequest:msal.SilentRequest,redirectRequestConfig? :msal.RedirectRequest | undefined) : Promise<msal.AuthenticationResult|undefined> => {
     try {
       var authResult = await msalInstance.acquireTokenSilent(silentRequest)
       setHomeAccountId(authResult.account.homeAccountId)
       setIsLoggedIn(true);
-      return authResult.accessToken;
+      return authResult;
     } catch (err) {
       if(err instanceof msal.InteractionRequiredAuthError){
         // should log in
@@ -153,6 +157,7 @@ const MsalProvider:FC<MsalProps> = (props: MsalProps) : JSX.Element => {
     <MsalContext.Provider 
       value={{
         getAuthToken:   () => getAuthToken(), 
+        getAuthResult:  () => getAuthResult(),
         isLoggedIn:     isLoggedIn,
         logout:         () =>  logout(),
         login:          ()=> login(),
