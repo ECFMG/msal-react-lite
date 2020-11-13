@@ -52,7 +52,7 @@ const MsalProvider:FC<MsalProps> = (props: MsalProps) : JSX.Element => {
   let loginPopup = async (loginRequestConfig? : msal.AuthorizationUrlRequest) => {
     try {
       const loginResponse = await msalInstance.loginPopup(loginRequestConfig);
-      setHomeAccountId(loginResponse.account.homeAccountId)
+      setHomeAccountId(loginResponse.account?.homeAccountId)
       return await getAuthResult()
     } catch (err) {
       console.error('Login error', err)
@@ -108,7 +108,7 @@ const MsalProvider:FC<MsalProps> = (props: MsalProps) : JSX.Element => {
     if(!authResult){ //may be called from loginTokenPopup
       authResult = await getAuthResult()??null;
     }
-    if(!authResult || authResult.account.homeAccountId === homeAccountId) return;
+    if(!authResult || authResult.account?.homeAccountId === homeAccountId) return;
     setHomeAccountId(authResult.account.homeAccountId)
     getAuthResult(authResult.account.homeAccountId)
   }
@@ -137,7 +137,7 @@ const MsalProvider:FC<MsalProps> = (props: MsalProps) : JSX.Element => {
   let authTokenRedirect = async (silentRequest:msal.SilentRequest,redirectRequestConfig? :msal.RedirectRequest | undefined) : Promise<msal.AuthenticationResult|undefined> => {
     try {
       var authResult = await msalInstance.acquireTokenSilent(silentRequest)
-      setHomeAccountId(authResult.account.homeAccountId)
+      setHomeAccountId(authResult.account?.homeAccountId)
       setIsLoggedIn(true);
       return authResult;
     } catch (err) {
