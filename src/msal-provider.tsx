@@ -69,6 +69,18 @@ const MsalProvider:FC<MsalProps> = (props: MsalProps) : JSX.Element => {
     }
   }
 
+  let handleRedirectResult = async (authResult:msal.AuthenticationResult | null) => {
+    if(!authResult){ //may be called from loginTokenPopup or on a page load
+      authResult = await getAuthResult()??null;
+    }
+    if(!authResult || authResult.account?.homeAccountId === homeAccountId) return;
+    setHomeAccountId(authResult.account.homeAccountId)
+    getAuthResult(authResult.account.homeAccountId)
+  }
+  useEffect(() => {
+    msalInstance.handleRedirectPromise().then(async(authResult) => {await handleRedirectResult(authResult)});
+  },[]); // eslint-disable-line react-hooks/exhaustive-deps
+
   let getAccount =(providedHomeAccountId?:string):msal.AccountInfo | undefined => {
     let usedHomeAccountId = providedHomeAccountId??homeAccountId;
     if(!usedHomeAccountId) return undefined
@@ -104,18 +116,6 @@ const MsalProvider:FC<MsalProps> = (props: MsalProps) : JSX.Element => {
     }
   }
 
-  let handleRedirectResult = async (authResult:msal.AuthenticationResult | null) => {
-    if(!authResult){ //may be called from loginTokenPopup
-      authResult = await getAuthResult()??null;
-    }
-    if(!authResult || authResult.account?.homeAccountId === homeAccountId) return;
-    setHomeAccountId(authResult.account.homeAccountId)
-    getAuthResult(authResult.account.homeAccountId)
-  }
-  useEffect(() => {
-    msalInstance.handleRedirectPromise().then(async(authResult) => {await handleRedirectResult(authResult)});
-  },[]); // eslint-disable-line react-hooks/exhaustive-deps
-  
   let authTokenPopup = async (silentRequest:msal.SilentRequest,loginRequestConfig?: msal.AuthorizationUrlRequest) : Promise<msal.AuthenticationResult|undefined> => {
     var authResult : msal.AuthenticationResult;
     try {
