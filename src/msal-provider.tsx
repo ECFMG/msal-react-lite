@@ -41,10 +41,11 @@ const MsalProvider:FC<MsalProps> = (props: MsalProps) : JSX.Element => {
   var login = async() => {
     if(usePopup){
       var popupConfig = props.config as MsalProviderPopupConfig
-      await loginPopup(popupConfig.loginRequestConfig)
+      return await loginPopup(popupConfig.loginRequestConfig)
     }else{
       var redirectConfig = props.config as MsalProviderRedirectConfig
       await loginRedirect(redirectConfig?.redirectRequestConfig)
+      return undefined;
     }
   }
 
@@ -52,9 +53,11 @@ const MsalProvider:FC<MsalProps> = (props: MsalProps) : JSX.Element => {
     try {
       const loginResponse = await msalInstance.loginPopup(loginRequestConfig);
       setHomeAccountId(loginResponse.account.homeAccountId)
-      getAuthToken()
+      return await getAuthResult()
     } catch (err) {
+      console.error('Login error', err)
       setIsLoggedIn(false);
+      return undefined
     }
   }
 
@@ -100,13 +103,17 @@ const MsalProvider:FC<MsalProps> = (props: MsalProps) : JSX.Element => {
       return await authTokenRedirect(fullSilentRequestConfig,redirectConfig?.redirectRequestConfig)
     }
   }
-  let handleRedirectResult = (authResult:msal.AuthenticationResult | null) => {
+
+  let handleRedirectResult = async (authResult:msal.AuthenticationResult | null) => {
+    if(!authResult){ //may be called from loginTokenPopup
+      authResult = await getAuthResult()??null;
+    }
     if(!authResult || authResult.account.homeAccountId === homeAccountId) return;
     setHomeAccountId(authResult.account.homeAccountId)
-    getAuthToken()
+    getAuthResult(authResult.account.homeAccountId)
   }
   useEffect(() => {
-    msalInstance.handleRedirectPromise().then(handleRedirectResult);
+    msalInstance.handleRedirectPromise().then(async(authResult) => {await handleRedirectResult(authResult)});
   },[]); // eslint-disable-line react-hooks/exhaustive-deps
   
   let authTokenPopup = async (silentRequest:msal.SilentRequest,loginRequestConfig?: msal.AuthorizationUrlRequest) : Promise<msal.AuthenticationResult|undefined> => {
@@ -159,8 +166,8 @@ const MsalProvider:FC<MsalProps> = (props: MsalProps) : JSX.Element => {
         getAuthToken:   () => getAuthToken(), 
         getAuthResult:  () => getAuthResult(),
         isLoggedIn:     isLoggedIn,
-        logout:         () =>  logout(),
-        login:          ()=> login(),
+        logout:         () => logout(),
+        login:          () => login(),
       }}>
       {props.children}
     </MsalContext.Provider>

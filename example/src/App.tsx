@@ -8,7 +8,7 @@ const App = () => {
     <div>
       MSAL Example:<br/>
       <br/>Login Status: {isLoggedIn?<span>Logged In</span> :<span>Logged Out</span>} <br/>
-      <button onClick={() => login()}>LogIn</button>
+      <button onClick={async () => console.log('Login AuthResult:',await login())}>LogIn</button>
       <button onClick={() => logout()}>LogOut</button>
       <button onClick={async () => await getAuthToken()}>Get Token</button>
       <button onClick={async () => console.log('AuthResult:',await getAuthResult())}>Get msal.AuthResult</button>

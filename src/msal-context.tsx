@@ -6,7 +6,7 @@ export interface MsalContextInterface {
   getAuthResult: () => Promise<msal.AuthenticationResult|undefined>,
   isLoggedIn:    boolean,
   logout:        () => Promise<void>;
-  login:         () => Promise<void>;
+  login:         () => Promise<msal.AuthenticationResult|undefined>;
 } 
 
 const stub = (): never => {
