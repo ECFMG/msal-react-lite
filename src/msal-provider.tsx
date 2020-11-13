@@ -120,7 +120,8 @@ const MsalProvider:FC<MsalProps> = (props: MsalProps) : JSX.Element => {
     var authResult : msal.AuthenticationResult;
     try {
       authResult = await msalInstance.acquireTokenSilent(silentRequest)
-      return authResult;
+      setIsLoggedIn(true)
+      return authResult
     } catch (err) {
       if(err instanceof msal.InteractionRequiredAuthError){
         // should log in
